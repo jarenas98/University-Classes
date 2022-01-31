@@ -16,6 +16,8 @@ public abstract class Teacher extends Person {
         this.baseSalary = baseSalary;
     }
 
+    public abstract double calculateSalary();
+
     public double getBaseSalary() {
         return baseSalary;
     }

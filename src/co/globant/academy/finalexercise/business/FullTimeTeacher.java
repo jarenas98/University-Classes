@@ -2,6 +2,7 @@ package co.globant.academy.finalexercise.business;
 
 public class FullTimeTeacher extends Teacher {
     private short experienceYears;
+    public static final float salaryPercentage = 1.1f;
 
     public FullTimeTeacher() {
         super();
@@ -18,6 +19,11 @@ public class FullTimeTeacher extends Teacher {
     public FullTimeTeacher(String name, double baseSalary, short experienceYears) {
         super(name, baseSalary);
         this.experienceYears = experienceYears;
+    }
+
+    @Override
+    public double calculateSalary() {
+        return this.baseSalary * (this.experienceYears * FullTimeTeacher.salaryPercentage);
     }
 
     public short getExperienceYears() {

@@ -16,6 +16,11 @@ public class PartTimeTeacher extends Teacher {
         this.activeHoursWeek = activeHoursWeek;
     }
 
+    @Override
+    public double calculateSalary() {
+        return this.baseSalary * activeHoursWeek;
+    }
+
     public short getActiveHoursWeek() {
         return activeHoursWeek;
     }
