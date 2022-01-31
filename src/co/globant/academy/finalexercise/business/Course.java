@@ -1,5 +1,6 @@
 package co.globant.academy.finalexercise.business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Course {
@@ -12,17 +13,20 @@ public class Course {
     private static int count = 1;
 
     public Course() {
+        this.students = new ArrayList<>();
         this.id = count;
         count++;
     }
 
     public Course(String name) {
+        this.students = new ArrayList<>();
         this.name = name;
         this.id = count;
         count++;
     }
 
     public Course(String name, String assignedClassroom) {
+        this.students = new ArrayList<>();
         this.name = name;
         this.assignedClassroom = assignedClassroom;
         this.id = count;
