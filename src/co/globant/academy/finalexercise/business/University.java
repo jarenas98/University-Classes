@@ -1,5 +1,6 @@
 package co.globant.academy.finalexercise.business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class University {
@@ -10,6 +11,9 @@ public class University {
     private static int count = 1;
 
     public University() {
+        this.courses = new ArrayList<>();
+        this.teachers = new ArrayList<>();
+        this.students = new ArrayList<>();
         this.id = count;
         count++;
     }
