@@ -29,6 +29,10 @@ public class Course {
         count++;
     }
 
+    public void addStudent(Student student){
+        this.students.add(student);
+    }
+
     public String getName() {
         return this.name;
     }

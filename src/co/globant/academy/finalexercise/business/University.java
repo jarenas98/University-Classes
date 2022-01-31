@@ -14,6 +14,40 @@ public class University {
         count++;
     }
 
+    public void addStudent(Student student) {
+        this.students.add(student);
+    }
+
+    public void addCourse(Course course) {
+        this.courses.add(course);
+    }
+
+    public void addStudentToCourse(int idStudent, int idCourse) {
+        getCourseById(idCourse).addStudent(getStudentById(idStudent));
+    }
+
+    public Student getStudentById(int idStudent) {
+        for (Student student : this.students) {
+            if (idStudent == student.getId()) {
+
+                return student;
+            }
+        }
+
+        return null;
+    }
+
+    public Course getCourseById(int idCourse) {
+        for (Course course : this.courses) {
+            if (idCourse == course.getId()) {
+
+                return course;
+            }
+        }
+
+        return null;
+    }
+
     public List<Course> getCourses() {
         return this.courses;
     }
