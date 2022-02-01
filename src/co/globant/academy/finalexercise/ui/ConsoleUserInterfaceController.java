@@ -1,6 +1,7 @@
 package co.globant.academy.finalexercise.ui;
 
 import co.globant.academy.finalexercise.business.Course;
+import co.globant.academy.finalexercise.business.Student;
 import co.globant.academy.finalexercise.business.Teacher;
 import co.globant.academy.finalexercise.data.DummyDataInitializer;
 
@@ -68,7 +69,7 @@ public class ConsoleUserInterfaceController {
         System.out.println("---------------------------------------------------------------");
         List<Teacher> teachers = this.dummyDataInitializer.getUniversity().getTeachers();
         for (Teacher teacher : teachers) {
-            String type = (teacher.getClass().getSimpleName().equals("FullTimeTeacher"))? "Full Time":"Part Time";
+            String type = (teacher.getClass().getSimpleName().equals("FullTimeTeacher")) ? "Full Time" : "Part Time";
             System.out.printf("%3s %8s %5s %8.2f %7s %10.2f %12s\n", teacher.getId(), teacher.getName(), "$", teacher.getBaseSalary(), "$", teacher.calculateSalary(), type);
         }
         System.out.println("---------------------------------------------------------------");
@@ -76,18 +77,59 @@ public class ConsoleUserInterfaceController {
         sc.next();
     }
 
-    public void seeCoursesListMenu(){
+    public void seeCoursesListMenu() {
         System.out.println("===============================================================");
         System.out.printf("%35s \n", "University Classes");
         System.out.println("===============================================================");
         System.out.printf("%20s %15s\n", "id", "Name");
         System.out.println("---------------------------------------------------------------");
         List<Course> courses = this.dummyDataInitializer.getUniversity().getCourses();
-        for (Course course: courses) {
+        for (Course course : courses) {
             System.out.printf("%20s %15s\n", course.getId(), course.getName());
         }
         System.out.println("---------------------------------------------------------------");
-        System.out.print("Enter any value to return to the main menu : ");
+        System.out.println("do you want to see the details of a class?:");
+        System.out.printf("%24s\n%29s\n", "(1) Yes", "(2) No, back");
+        System.out.println("---------------------------------------------------------------");
+        System.out.print("Enter the value: ");
+        int option = sc.nextInt();
+        if (option == 1) {
+            coursesListMenuController();
+        } else if (option != 2) {
+            System.err.println("The value entered is not valid");
+            seeCoursesListMenu();
+        }
+    }
+
+    public void coursesListMenuController() {
+        System.out.println("---------------------------------------------------------------");
+        System.out.print("Enter the class id: ");
+        int option = sc.nextInt();
+        Course course = this.dummyDataInitializer.getUniversity().getCourseById(option);
+        if (course != null) {
+            System.out.println("===============================================================");
+            System.out.printf("%35s \n", "Class Info");
+            System.out.println("===============================================================");
+            System.out.printf("%s %s\t %s\n", "Name","=", course.getName());
+            System.out.printf("%s %s\t %s\n", "Teacher", "=", course.getTeacher().getName());
+            printListOfStudents(course.getStudents());
+        } else {
+            System.out.println("The entered id does not belong to any registered class");
+        }
+        System.out.println("===============================================================");
+        System.out.print("Enter any value to go back : ");
         sc.next();
+        seeCoursesListMenu();
+    }
+
+    public void printListOfStudents(List<Student> students) {
+        System.out.println("---------------------------------------------------------------");
+        System.out.printf("%40s \n", " Students");
+        System.out.println("---------------------------------------------------------------");
+        System.out.printf("%18s %15s %5s\n", "id", "Name", "age");
+        System.out.println("---------------------------------------------------------------");
+        for (Student student: students) {
+            System.out.printf("%18s %15s %5s\n", student.getId(), student.getName(), student.getAge());
+        }
     }
 }
