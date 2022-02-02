@@ -86,9 +86,9 @@ public class DummyDataInitializer {
         this.c4.setTeacher(ptt2);
 
         // add list to university
-        this.university.setTeachers(this.teachers);
-        this.university.setCourses(this.courses);
-        this.university.setStudents(this.students);
+        this.university.setTeacherList(this.teachers);
+        this.university.setCourseList(this.courses);
+        this.university.setStudentList(this.students);
     }
 
     public University getUniversity() {

@@ -5,7 +5,6 @@ import co.globant.academy.finalexercise.business.Student;
 import co.globant.academy.finalexercise.business.Teacher;
 import co.globant.academy.finalexercise.business.University;
 import co.globant.academy.finalexercise.data.DummyDataInitializer;
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
 
 import java.util.List;
 import java.util.Scanner;
@@ -59,6 +58,7 @@ public class ConsoleUserInterfaceController {
                 seeStudentCreationMenu();
                 break;
             case 4:
+                seeCourseCreationMenu();
                 break;
             case 5:
                 seeStudentCoursesList();
@@ -74,7 +74,7 @@ public class ConsoleUserInterfaceController {
         System.out.println("===============================================================");
         System.out.printf("%3s %8s %5s %8s %5s %8s %8s\n", "id", "Name", "", "Base Salary", "", "Full Salary", "Type");
         System.out.println("---------------------------------------------------------------");
-        List<Teacher> teachers = this.university.getTeachers();
+        List<Teacher> teachers = this.university.getTeacherList();
         for (Teacher teacher : teachers) {
             String type = (teacher.getClass().getSimpleName().equals("FullTimeTeacher")) ? "Full Time" : "Part Time";
             System.out.printf("%3s %8s %5s %8.2f %7s %10.2f %12s\n", teacher.getId(), teacher.getName(), "$", teacher.getBaseSalary(), "$", teacher.calculateSalary(), type);
@@ -85,7 +85,7 @@ public class ConsoleUserInterfaceController {
     }
 
     public void seeCoursesListMenu() {
-        printListOfCourses(this.university.getCourses(), "University");
+        printListOfCourses(this.university.getCourseList(), "University");
         System.out.println("---------------------------------------------------------------");
         System.out.println("do you want to see the details of a class?:");
         System.out.printf("%24s\n%29s\n", "(1) Yes", "(2) No, back");
@@ -132,7 +132,7 @@ public class ConsoleUserInterfaceController {
     }
 
     public void seeStudentCoursesList() {
-        printListOfStudents(this.university.getStudents());
+        printListOfStudents(this.university.getStudentList());
         System.out.println("---------------------------------------------------------------");
         System.out.print("Enter the id of the student you want to know\nthe courses he/she is enrolled in : ");
         int idStudent = sc.nextInt();
@@ -188,7 +188,7 @@ public class ConsoleUserInterfaceController {
         System.out.println("---------------------------------------------------------------");
         System.out.println("The student was successfully registered at the university");
         System.out.println("---------------------------------------------------------------");
-        System.out.println("Do you want to add the new student to a course?");
+        System.out.println("Do you want to add the new student to a class?");
         System.out.printf("%24s\n%29s\n", "(1) Yes", "(2) No, back");
         System.out.println("---------------------------------------------------------------");
         System.out.print("Enter the value: ");
@@ -208,30 +208,112 @@ public class ConsoleUserInterfaceController {
 
     public void seeMenuRegisterStudentCourse(int studentId) {
         cleanScanner();
-        printListOfCourses(this.university.getCourses(), "University");
+        printListOfCourses(this.university.getCourseList(), "University");
         boolean exit = false;
         while (!exit) {
-            System.out.print("Enter id of the course you want to add the student to : ");
+            System.out.print("Enter id of the class you want to add the student to : ");
             int idCourse = sc.nextInt();
             if (this.university.isThereCourseById(idCourse)) {
                 this.university.addStudentToCourse(studentId, idCourse);
-                System.out.println("The student was successfully registered to the course");
+                System.out.println("The student was successfully registered to the class");
             } else {
                 System.out.println("---------------------------------------------------------------");
-                System.out.println("The entered id does not belong to any course");
+                System.out.println("The entered id does not belong to any class");
             }
             System.out.println("---------------------------------------------------------------");
-            System.out.println("Do you want to add the student to another course? :");
+            System.out.println("Do you want to add the student to another class? :");
             System.out.printf("%24s\n%29s\n", "(1) Yes", "(Other value) No, back");
             System.out.println("---------------------------------------------------------------");
             System.out.print("Enter the value: ");
-            int option = sc.nextInt();
-            if (option != 1) {
+            String option = sc.next();
+            if (!option.equals("1")) {
                 exit = true;
             }
         }
     }
 
+    public void seeCourseCreationMenu() {
+        cleanScanner();
+        System.out.println("===============================================================");
+        System.out.printf("%35s \n", "Class Creation Menu");
+        System.out.println("===============================================================");
+        System.out.println("Do you want to create a new Class? :");
+        System.out.printf("%24s\n%29s\n", "(1) Yes", "(2) No, back");
+        System.out.println("---------------------------------------------------------------");
+        System.out.print("Enter the value: ");
+        int option = sc.nextInt();
+        if (option == 1) {
+            classCreationController();
+        } else if (option != 2) {
+            System.err.println("The value entered is not valid");
+            seeCourseCreationMenu();
+        }
+    }
+
+    public void classCreationController() {
+        cleanScanner();
+        Course newCourse = new Course();
+        this.university.addCourse(newCourse);
+        System.out.print("Enter a new class name: ");
+        String newClassName = sc.nextLine();
+        newCourse.setName(newClassName);
+        System.out.print("Enter the assigned classroom: ");
+        String newClassAssigned = sc.nextLine();
+        newCourse.setAssignedClassroom(newClassAssigned);
+        System.out.println("Choose one of the following teachers: ");
+        System.out.println("===============================================================");
+        System.out.printf("%35s \n", "University Teachers");
+        System.out.println("===============================================================");
+        System.out.printf("%20s %8s %10s\n", "id", "Name", "Type");
+        System.out.println("---------------------------------------------------------------");
+        List<Teacher> teachers = this.university.getTeacherList();
+        for (Teacher teacher : teachers) {
+            String type = (teacher.getClass().getSimpleName().equals("FullTimeTeacher")) ? "Full Time" : "Part Time";
+            System.out.printf("%20s %8s %10s\n", teacher.getId(), teacher.getName(), type);
+        }
+        System.out.println("---------------------------------------------------------------");
+        boolean exit = false;
+        while (!exit) {
+            System.out.print("Enter the id of the selected teacher: ");
+            int teacherId = sc.nextInt();
+            if (this.university.isThereTeacherById(teacherId)) {
+                this.university.setTeacherOfCourse(newCourse.getId(), teacherId);
+                exit = true;
+            } else {
+                System.err.println("The entered id does not belong to any teacher");
+            }
+        }
+        exit = false;
+        while (!exit) {
+            System.out.println("---------------------------------------------------------------");
+            System.out.println("Do you want to add students to new class? :");
+            System.out.printf("%24s\n%23s\n", "(1) Yes", "(2) No");
+            System.out.println("---------------------------------------------------------------");
+            System.out.print("Enter the value: ");
+            int option = sc.nextInt();
+            if (option == 1) {
+                seeAddStudentsToCourseController(newCourse.getId());
+            } else if (option == 2) {
+                exit = true;
+            } else {
+                System.err.println("The value entered is not valid");
+            }
+        }
+        seeCourseCreationMenu();
+    }
+
+    public void seeAddStudentsToCourseController(int courseId) {
+        printListOfStudents(this.university.getStudentList());
+        System.out.println("---------------------------------------------------------------");
+        System.out.print("Enter the id of the student you want to add to the class :");
+        int studentId = sc.nextInt();
+        if (this.university.isThereStudentById(studentId)) {
+            this.university.addStudentToCourse(studentId, courseId);
+            System.out.println("Student added successfully");
+        } else {
+            System.err.println("The entered id does not belong to any Student");
+        }
+    }
 
     public void seeMenuToGoBack() {
         cleanScanner();

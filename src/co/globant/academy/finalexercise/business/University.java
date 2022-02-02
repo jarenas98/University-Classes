@@ -4,26 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class University {
-    private List<Course> courses;
-    private List<Teacher> teachers;
-    private List<Student> students;
+    private List<Course> courseList;
+    private List<Teacher> teacherList;
+    private List<Student> studentList;
     private int id;
     private static int count = 1;
 
     public University() {
-        this.courses = new ArrayList<>();
-        this.teachers = new ArrayList<>();
-        this.students = new ArrayList<>();
+        this.courseList = new ArrayList<>();
+        this.teacherList = new ArrayList<>();
+        this.studentList = new ArrayList<>();
         this.id = count;
         count++;
     }
 
     public void addStudent(Student student) {
-        this.students.add(student);
+        this.studentList.add(student);
     }
 
     public void addCourse(Course course) {
-        this.courses.add(course);
+        this.courseList.add(course);
     }
 
     public void addStudentToCourse(int idStudent, int idCourse) {
@@ -39,7 +39,7 @@ public class University {
 
     public Student getStudentById(int idStudent) {
         Student foundStudent = new Student();
-        for (Student student : this.students) {
+        for (Student student : this.studentList) {
             if (idStudent == student.getId()) {
 
                 foundStudent = student;
@@ -51,7 +51,7 @@ public class University {
 
     public Course getCourseById(int idCourse) {
         Course courseAux = new Course();
-        for (Course course : this.courses) {
+        for (Course course : this.courseList) {
             if (idCourse == course.getId()) {
 
                 courseAux = course;
@@ -61,9 +61,20 @@ public class University {
         return courseAux;
     }
 
+    public Teacher getTeacherById(int teacherId){
+        Teacher foundTeacher = new FullTimeTeacher();
+        for (Teacher teacher: this.teacherList) {
+            if (teacher.getId() == teacherId){
+                foundTeacher = teacher;
+            }
+        }
+
+        return foundTeacher;
+    }
+
     public List<Course> getCoursesByStudentId(int studentId) {
         List<Course> studentCourses = new ArrayList<>();
-        for (Course course : this.courses) {
+        for (Course course : this.courseList) {
             if (course.isStudentEnrolledById(studentId)) studentCourses.add(course);
         }
 
@@ -72,35 +83,63 @@ public class University {
 
     public boolean isThereCourseById(int courseId) {
         boolean isThereCourse = false;
-        for (Course course : this.courses) {
+        for (Course course : this.courseList) {
             if (course.getId() == courseId) isThereCourse = true;
         }
 
         return isThereCourse;
     }
 
-    public List<Course> getCourses() {
-        return this.courses;
+    public boolean isThereTeacherById(int teacherId) {
+        boolean isThereTeacher = false;
+        for (Teacher teacher : this.teacherList) {
+            if (teacher.getId() == teacherId) isThereTeacher = true;
+        }
+
+        return isThereTeacher;
     }
 
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
+    public boolean isThereStudentById(int studentId) {
+        boolean isThereStudent = false;
+        for (Student student: this.studentList) {
+            if (student.getId() == studentId){
+                isThereStudent = true;
+            }
+        }
+
+        return isThereStudent;
     }
 
-    public List<Teacher> getTeachers() {
-        return this.teachers;
+    public void setTeacherOfCourse(int courseId, int teacherId) {
+        Teacher foundTeacher = getTeacherById(teacherId);
+        Course foundCourse = getCourseById(courseId);
+        if(foundCourse.getName() != null && foundTeacher.getName() != null){
+            foundCourse.setTeacher(foundTeacher);
+        }
     }
 
-    public void setTeachers(List<Teacher> teachers) {
-        this.teachers = teachers;
+    public List<Course> getCourseList() {
+        return this.courseList;
     }
 
-    public List<Student> getStudents() {
-        return this.students;
+    public void setCourseList(List<Course> courseList) {
+        this.courseList = courseList;
     }
 
-    public void setStudents(List<Student> students) {
-        this.students = students;
+    public List<Teacher> getTeacherList() {
+        return this.teacherList;
+    }
+
+    public void setTeacherList(List<Teacher> teacherList) {
+        this.teacherList = teacherList;
+    }
+
+    public List<Student> getStudentList() {
+        return this.studentList;
+    }
+
+    public void setStudentList(List<Student> studentList) {
+        this.studentList = studentList;
     }
 
     public int getId() {
