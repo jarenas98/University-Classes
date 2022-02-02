@@ -33,7 +33,16 @@ public class Course {
         count++;
     }
 
-    public void addStudent(Student student){
+    public boolean isStudentEnrolledById(int studentId) {
+        boolean isEnrolled = false;
+        for (Student student : this.students) {
+            if (student.getId() == studentId) isEnrolled = true;
+        }
+
+        return isEnrolled;
+    }
+
+    public void addStudent(Student student) {
         this.students.add(student);
     }
 

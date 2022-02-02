@@ -27,29 +27,42 @@ public class University {
     }
 
     public void addStudentToCourse(int idStudent, int idCourse) {
-        getCourseById(idCourse).addStudent(getStudentById(idStudent));
+        Student foundStudent = getStudentById(idStudent);
+        if(foundStudent.getName() != null) getCourseById(idCourse).addStudent(foundStudent);
+
     }
 
     public Student getStudentById(int idStudent) {
+        Student foundStudent = new Student();
         for (Student student : this.students) {
             if (idStudent == student.getId()) {
 
-                return student;
+                foundStudent = student;
             }
         }
 
-        return null;
+        return foundStudent;
     }
 
     public Course getCourseById(int idCourse) {
+        Course courseAux = new Course();
         for (Course course : this.courses) {
             if (idCourse == course.getId()) {
 
-                return course;
+                courseAux = course;
             }
         }
 
-        return null;
+        return courseAux;
+    }
+
+    public List<Course> getCoursesByStudentId(int studentId) {
+        List<Course> studentCourses = new ArrayList<>();
+        for (Course course : this.courses) {
+            if (course.isStudentEnrolledById(studentId)) studentCourses.add(course);
+        }
+
+        return studentCourses;
     }
 
     public List<Course> getCourses() {
