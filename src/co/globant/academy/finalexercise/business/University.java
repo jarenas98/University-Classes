@@ -28,7 +28,12 @@ public class University {
 
     public void addStudentToCourse(int idStudent, int idCourse) {
         Student foundStudent = getStudentById(idStudent);
-        if(foundStudent.getName() != null) getCourseById(idCourse).addStudent(foundStudent);
+        Course foundCourse = getCourseById(idCourse);
+        if (foundCourse.getName() != null &&
+                foundStudent.getName() != null &&
+                !foundCourse.isStudentEnrolledById(idStudent)) {
+            foundCourse.addStudent(foundStudent);
+        }
 
     }
 
@@ -63,6 +68,15 @@ public class University {
         }
 
         return studentCourses;
+    }
+
+    public boolean isThereCourseById(int courseId) {
+        boolean isThereCourse = false;
+        for (Course course : this.courses) {
+            if (course.getId() == courseId) isThereCourse = true;
+        }
+
+        return isThereCourse;
     }
 
     public List<Course> getCourses() {

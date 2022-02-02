@@ -83,7 +83,7 @@ public class DummyDataInitializer {
 
         this.c4.addStudent(st7);
         this.c4.addStudent(st8);
-        this.c1.setTeacher(ptt2);
+        this.c4.setTeacher(ptt2);
 
         // add list to university
         this.university.setTeachers(this.teachers);

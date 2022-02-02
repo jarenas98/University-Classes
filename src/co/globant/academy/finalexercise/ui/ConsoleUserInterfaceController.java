@@ -5,6 +5,7 @@ import co.globant.academy.finalexercise.business.Student;
 import co.globant.academy.finalexercise.business.Teacher;
 import co.globant.academy.finalexercise.business.University;
 import co.globant.academy.finalexercise.data.DummyDataInitializer;
+import com.sun.xml.internal.ws.api.ha.StickyFeature;
 
 import java.util.List;
 import java.util.Scanner;
@@ -55,6 +56,7 @@ public class ConsoleUserInterfaceController {
                 seeCoursesListMenu();
                 break;
             case 3:
+                seeStudentCreationMenu();
                 break;
             case 4:
                 break;
@@ -156,8 +158,88 @@ public class ConsoleUserInterfaceController {
         System.out.println("---------------------------------------------------------------");
     }
 
+
+    private void seeStudentCreationMenu() {
+        cleanScanner();
+        System.out.println("===============================================================");
+        System.out.printf("%35s \n", "Student Creation Menu");
+        System.out.println("===============================================================");
+        System.out.println("Do you want to create a new student? :");
+        System.out.printf("%24s\n%29s\n", "(1) Yes", "(2) No, back");
+        System.out.println("---------------------------------------------------------------");
+        System.out.print("Enter the value: ");
+        int option = sc.nextInt();
+        if (option == 1) {
+            studentCreationController();
+        } else if (option != 2) {
+            System.err.println("The value entered is not valid");
+            seeStudentCreationMenu();
+        }
+    }
+
+    public void studentCreationController() {
+        cleanScanner();
+        System.out.print("Enter the new student's name : ");
+        String newStudentName = sc.nextLine();
+        System.out.print("Enter the new student's age : ");
+        short newStudentAge = sc.nextShort();
+        Student newStudent = new Student(newStudentName, newStudentAge);
+        this.university.addStudent(newStudent);
+        System.out.println("---------------------------------------------------------------");
+        System.out.println("The student was successfully registered at the university");
+        System.out.println("---------------------------------------------------------------");
+        System.out.println("Do you want to add the new student to a course?");
+        System.out.printf("%24s\n%29s\n", "(1) Yes", "(2) No, back");
+        System.out.println("---------------------------------------------------------------");
+        System.out.print("Enter the value: ");
+        int option = sc.nextInt();
+        switch (option) {
+            case 1:
+                seeMenuRegisterStudentCourse(newStudent.getId());
+                break;
+            case 2:
+                System.out.println("The student was correctly stored with the information provided so far");
+                seeMenuToGoBack();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void seeMenuRegisterStudentCourse(int studentId) {
+        cleanScanner();
+        printListOfCourses(this.university.getCourses(), "University");
+        boolean exit = false;
+        while (!exit) {
+            System.out.print("Enter id of the course you want to add the student to : ");
+            int idCourse = sc.nextInt();
+            if (this.university.isThereCourseById(idCourse)) {
+                this.university.addStudentToCourse(studentId, idCourse);
+                System.out.println("The student was successfully registered to the course");
+            } else {
+                System.out.println("---------------------------------------------------------------");
+                System.out.println("The entered id does not belong to any course");
+            }
+            System.out.println("---------------------------------------------------------------");
+            System.out.println("Do you want to add the student to another course? :");
+            System.out.printf("%24s\n%29s\n", "(1) Yes", "(Other value) No, back");
+            System.out.println("---------------------------------------------------------------");
+            System.out.print("Enter the value: ");
+            int option = sc.nextInt();
+            if (option != 1) {
+                exit = true;
+            }
+        }
+    }
+
+
     public void seeMenuToGoBack() {
+        cleanScanner();
         System.out.print("Enter any value to go back : ");
-        sc.next();
+        sc.nextLine();
+    }
+
+    public void cleanScanner() {
+        sc = new Scanner(System.in);
     }
 }
