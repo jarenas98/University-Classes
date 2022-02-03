@@ -6,6 +6,7 @@ import co.globant.academy.finalexercise.business.Teacher;
 import co.globant.academy.finalexercise.business.University;
 import co.globant.academy.finalexercise.data.DummyDataInitializer;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,24 +25,32 @@ public class ConsoleUserInterfaceController {
     public void seeMainMenu() {
         boolean exit = false;
         while (!exit) {
-            System.out.println("==================================================");
-            System.out.printf("%35s \n", "Main Menu University");
-            System.out.println("==================================================");
-            System.out.println("Select one of the following options:");
-            System.out.println("--------------------------------------------------");
-            System.out.printf("%14s %20s \n", "(1)", "Print all the Teacher");
-            System.out.printf("%14s %20s \n", "(2)", "Print all the classes");
-            System.out.printf("%14s %20s \n", "(3)", "Create a new student");
-            System.out.printf("%14s %15s \n", "(4)", "Create a new class");
-            System.out.printf("%14s %20s \n", "(5)", "Student's class list");
-            System.out.printf("%14s %4s \n", "(6)", "Exit");
-            System.out.println("--------------------------------------------------");
-            System.out.print("Enter the value: ");
-            int option = sc.nextInt();
-            if (option == 6) {
-                exit = true;
-            } else {
-                mainMenuController(option);
+            try {
+                System.out.println("==================================================");
+                System.out.printf("%35s \n", "Main Menu University");
+                System.out.println("==================================================");
+                System.out.println("Select one of the following options:");
+                System.out.println("--------------------------------------------------");
+                System.out.printf("%14s %20s \n", "(1)", "Print all the Teacher");
+                System.out.printf("%14s %20s \n", "(2)", "Print all the classes");
+                System.out.printf("%14s %20s \n", "(3)", "Create a new student");
+                System.out.printf("%14s %15s \n", "(4)", "Create a new class");
+                System.out.printf("%14s %20s \n", "(5)", "Student's class list");
+                System.out.printf("%14s %4s \n", "(6)", "Exit");
+                System.out.println("--------------------------------------------------");
+                System.out.print("Enter the value: ");
+                int option = sc.nextInt();
+                if (option == 6) {
+                    exit = true;
+                } else {
+                    mainMenuController(option);
+                }
+            } catch (InputMismatchException ime) {
+                cleanScanner();
+                System.out.println("---------------------------------------------------------------");
+                System.out.println("The value entered is not valid,\nyou will be redirected to the main menu.");
+                System.out.println("---------------------------------------------------------------");
+                seeMenuToGoBack();
             }
         }
     }
@@ -95,7 +104,9 @@ public class ConsoleUserInterfaceController {
         if (option == 1) {
             coursesListMenuController();
         } else if (option != 2) {
-            System.err.println("The value entered is not valid");
+            System.out.println("---------------------------------------------------------------");
+            System.out.println("The value entered is not valid");
+            System.out.println("---------------------------------------------------------------");
             seeCoursesListMenu();
         }
     }
@@ -112,10 +123,12 @@ public class ConsoleUserInterfaceController {
             System.out.printf("%s %s\t %s\n", "Name", "=", course.getName());
             System.out.printf("%s %s\t %s\n", "Teacher", "=", course.getTeacher().getName());
             printListOfStudents(course.getStudents());
+            System.out.println("---------------------------------------------------------------");
         } else {
-            System.err.println("The entered id does not belong to any registered class");
+            System.out.println("---------------------------------------------------------------");
+            System.out.println("The entered id does not belong to any registered class");
+            System.out.println("---------------------------------------------------------------");
         }
-        System.out.println("===============================================================");
         seeMenuToGoBack();
         seeCoursesListMenu();
     }
@@ -141,7 +154,9 @@ public class ConsoleUserInterfaceController {
             List<Course> studentCourses = this.university.getCoursesByStudentId(idStudent);
             printListOfCourses(studentCourses, foundStudent.getName());
         } else {
-            System.err.println("\nThe entered id does not belong to any registered student");
+            System.out.println("---------------------------------------------------------------");
+            System.out.println("\nThe entered id does not belong to any registered student");
+            System.out.println("---------------------------------------------------------------");
         }
         seeMenuToGoBack();
     }
@@ -172,7 +187,10 @@ public class ConsoleUserInterfaceController {
         if (option == 1) {
             studentCreationController();
         } else if (option != 2) {
-            System.err.println("The value entered is not valid");
+            System.out.println("---------------------------------------------------------------");
+            System.out.println("The value entered is not valid");
+            System.out.println("---------------------------------------------------------------");
+            seeMenuToGoBack();
             seeStudentCreationMenu();
         }
     }
@@ -188,21 +206,32 @@ public class ConsoleUserInterfaceController {
         System.out.println("---------------------------------------------------------------");
         System.out.println("The student was successfully registered at the university");
         System.out.println("---------------------------------------------------------------");
+        boolean exit = false;
+        while (!exit) {
         System.out.println("Do you want to add the new student to a class?");
-        System.out.printf("%24s\n%29s\n", "(1) Yes", "(2) No, back");
-        System.out.println("---------------------------------------------------------------");
-        System.out.print("Enter the value: ");
-        int option = sc.nextInt();
-        switch (option) {
-            case 1:
-                seeMenuRegisterStudentCourse(newStudent.getId());
-                break;
-            case 2:
-                System.out.println("The student was correctly stored with the information provided so far");
-                seeMenuToGoBack();
-                break;
-            default:
-                break;
+            System.out.printf("%24s\n%29s\n", "(1) Yes", "(2) No, back");
+            System.out.println("---------------------------------------------------------------");
+            System.out.print("Enter the value: ");
+            int option = sc.nextInt();
+            switch (option) {
+                case 1:
+                    seeMenuRegisterStudentCourse(newStudent.getId());
+                    exit = true;
+                    break;
+                case 2:
+                    System.out.println("---------------------------------------------------------------");
+                    System.out.println("The student was correctly stored with the \ninformation provided so far");
+                    System.out.println("---------------------------------------------------------------");
+
+                    seeMenuToGoBack();
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("---------------------------------------------------------------");
+                    System.out.println("The value entered is not valid");
+                    System.out.println("---------------------------------------------------------------");
+                    break;
+            }
         }
     }
 
@@ -215,6 +244,7 @@ public class ConsoleUserInterfaceController {
             int idCourse = sc.nextInt();
             if (this.university.isThereCourseById(idCourse)) {
                 this.university.addStudentToCourse(studentId, idCourse);
+                System.out.println("---------------------------------------------------------------");
                 System.out.println("The student was successfully registered to the class");
             } else {
                 System.out.println("---------------------------------------------------------------");
@@ -245,7 +275,9 @@ public class ConsoleUserInterfaceController {
         if (option == 1) {
             classCreationController();
         } else if (option != 2) {
-            System.err.println("The value entered is not valid");
+            System.out.println("---------------------------------------------------------------");
+            System.out.println("The value entered is not valid");
+            System.out.println("---------------------------------------------------------------");
             seeCourseCreationMenu();
         }
     }
@@ -280,7 +312,9 @@ public class ConsoleUserInterfaceController {
                 this.university.setTeacherOfCourse(newCourse.getId(), teacherId);
                 exit = true;
             } else {
-                System.err.println("The entered id does not belong to any teacher");
+                System.out.println("---------------------------------------------------------------");
+                System.out.println("The entered id does not belong to any teacher");
+                System.out.println("---------------------------------------------------------------");
             }
         }
         exit = false;
@@ -296,7 +330,9 @@ public class ConsoleUserInterfaceController {
             } else if (option == 2) {
                 exit = true;
             } else {
-                System.err.println("The value entered is not valid");
+                System.out.println("---------------------------------------------------------------");
+                System.out.println("The value entered is not valid");
+                System.out.println("---------------------------------------------------------------");
             }
         }
         seeCourseCreationMenu();
@@ -309,9 +345,13 @@ public class ConsoleUserInterfaceController {
         int studentId = sc.nextInt();
         if (this.university.isThereStudentById(studentId)) {
             this.university.addStudentToCourse(studentId, courseId);
+            System.out.println("---------------------------------------------------------------");
             System.out.println("Student added successfully");
+            System.out.println("---------------------------------------------------------------");
         } else {
-            System.err.println("The entered id does not belong to any Student");
+            System.out.println("---------------------------------------------------------------");
+            System.out.println("The entered id does not belong to any Student");
+            System.out.println("---------------------------------------------------------------");
         }
     }
 
