@@ -285,7 +285,6 @@ public class ConsoleUserInterfaceController {
     public void classCreationController() {
         cleanScanner();
         Course newCourse = new Course();
-        this.university.addCourse(newCourse);
         System.out.print("Enter a new class name: ");
         String newClassName = sc.nextLine();
         newCourse.setName(newClassName);
@@ -309,6 +308,7 @@ public class ConsoleUserInterfaceController {
             System.out.print("Enter the id of the selected teacher: ");
             int teacherId = sc.nextInt();
             if (this.university.isThereTeacherById(teacherId)) {
+                this.university.addCourse(newCourse);
                 this.university.setTeacherOfCourse(newCourse.getId(), teacherId);
                 exit = true;
             } else {
