@@ -7,26 +7,26 @@ public class Course {
 
     private String name;
     private String assignedClassroom;
-    private List<Student> students;
+    private List<Student> studentList;
     private Teacher teacher;
     private int id;
     private static int count = 1;
 
     public Course() {
-        this.students = new ArrayList<>();
+        this.studentList = new ArrayList<>();
         this.id = count;
         count++;
     }
 
     public Course(String name) {
-        this.students = new ArrayList<>();
+        this.studentList = new ArrayList<>();
         this.name = name;
         this.id = count;
         count++;
     }
 
     public Course(String name, String assignedClassroom) {
-        this.students = new ArrayList<>();
+        this.studentList = new ArrayList<>();
         this.name = name;
         this.assignedClassroom = assignedClassroom;
         this.id = count;
@@ -35,7 +35,7 @@ public class Course {
 
     public boolean isStudentEnrolledById(int studentId) {
         boolean isEnrolled = false;
-        for (Student student : this.students) {
+        for (Student student : this.studentList) {
             if (student.getId() == studentId) isEnrolled = true;
         }
 
@@ -43,7 +43,7 @@ public class Course {
     }
 
     public void addStudent(Student student) {
-        this.students.add(student);
+        this.studentList.add(student);
     }
 
     public String getName() {
@@ -62,12 +62,12 @@ public class Course {
         this.assignedClassroom = assignedClassroom;
     }
 
-    public List<Student> getStudents() {
-        return this.students;
+    public List<Student> getStudentList() {
+        return this.studentList;
     }
 
-    public void setStudents(List<Student> students) {
-        this.students = students;
+    public void setStudentList(List<Student> studentList) {
+        this.studentList = studentList;
     }
 
     public Teacher getTeacher() {
