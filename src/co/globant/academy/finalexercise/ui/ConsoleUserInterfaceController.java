@@ -122,7 +122,7 @@ public class ConsoleUserInterfaceController {
             System.out.println("===============================================================");
             System.out.printf("%s %s\t %s\n", "Name", "=", course.getName());
             System.out.printf("%s %s\t %s\n", "Teacher", "=", course.getTeacher().getName());
-            printListOfStudents(course.getStudents());
+            printListOfStudents(course.getStudentList());
             System.out.println("---------------------------------------------------------------");
         } else {
             System.out.println("---------------------------------------------------------------");

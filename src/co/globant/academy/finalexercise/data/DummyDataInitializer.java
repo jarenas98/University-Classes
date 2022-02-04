@@ -11,84 +11,84 @@ public class DummyDataInitializer {
     private University university = new University();
 
     // Students
-    private Student st1 = new Student("Juan Felipe", (short) 16);
-    private Student st2 = new Student("Jessica", (short) 17);
-    private Student st3 = new Student("Ulises", (short) 18);
-    private Student st4 = new Student("Danilo Andres", (short) 19);
-    private Student st5 = new Student("Luisa Fernanda", (short) 18);
-    private Student st6 = new Student("Camilo Alejandro", (short) 17);
-    private Student st7 = new Student("Diego Fernando", (short) 16);
-    private Student st8 = new Student("Luis Daniel", (short) 15);
+    private Student student_juan_felipe = new Student("Juan Felipe", (short) 16);
+    private Student student_jessica = new Student("Jessica", (short) 17);
+    private Student student_ulises = new Student("Ulises", (short) 18);
+    private Student student_danilo_andres = new Student("Danilo Andres", (short) 19);
+    private Student student_luisa_fernanda = new Student("Luisa Fernanda", (short) 18);
+    private Student student_camilo_alejandro = new Student("Camilo Alejandro", (short) 17);
+    private Student student_diego_fernando = new Student("Diego Fernando", (short) 16);
+    private Student student_luis_daniel = new Student("Luis Daniel", (short) 15);
 
     // Teachers
 
     /// full time teachers
-    private FullTimeTeacher ftt1 = new FullTimeTeacher("Faber", 1100, (short) 15);
-    private FullTimeTeacher ftt2 = new FullTimeTeacher("Edwin", 800, (short) 20);
-    private FullTimeTeacher ftt3 = new FullTimeTeacher("Andres", 1000, (short) 7);
+    private FullTimeTeacher teacher_faber = new FullTimeTeacher("Faber", 1100, (short) 15);
+    private FullTimeTeacher teacher_edwin = new FullTimeTeacher("Edwin", 800, (short) 20);
+    private FullTimeTeacher teacher_andres = new FullTimeTeacher("Andres", 1000, (short) 7);
     /// part-time teachers
-    private PartTimeTeacher ptt1 = new PartTimeTeacher("Jesus", 15, (short) 44);
-    private PartTimeTeacher ptt2 = new PartTimeTeacher("Maycol", 18, (short) 44);
-    private PartTimeTeacher ptt3 = new PartTimeTeacher("Andrea", 20, (short) 44);
+    private PartTimeTeacher teacher_jesus = new PartTimeTeacher("Jesus", 15, (short) 44);
+    private PartTimeTeacher teacher_maycol = new PartTimeTeacher("Maycol", 18, (short) 44);
+    private PartTimeTeacher teacher_andrea = new PartTimeTeacher("Andrea", 20, (short) 44);
 
     // Courses
-    private Course c1 = new Course("Big Data", "S-23");
-    private Course c2 = new Course("Data Analytics", "S-24");
-    private Course c3 = new Course("IA", "S-25");
-    private Course c4 = new Course("Clean Code", "S-26");
+    private Course big_data_course = new Course("Big Data", "S-23");
+    private Course data_analytics_course = new Course("Data Analytics", "S-24");
+    private Course ia_course = new Course("IA", "S-25");
+    private Course clean_code_course = new Course("Clean Code", "S-26");
 
     // lists
-    private List<Student> students = new ArrayList<>();
-    private List<Teacher> teachers = new ArrayList<>();
-    private List<Course> courses = new ArrayList<>();
+    private List<Student> studentsList = new ArrayList<>();
+    private List<Teacher> teachersList = new ArrayList<>();
+    private List<Course> coursesList = new ArrayList<>();
 
     public DummyDataInitializer() {
         // add students to a list
-        this.students.add(st1);
-        this.students.add(st2);
-        this.students.add(st3);
-        this.students.add(st4);
-        this.students.add(st5);
-        this.students.add(st6);
-        this.students.add(st7);
-        this.students.add(st8);
+        this.studentsList.add(student_juan_felipe);
+        this.studentsList.add(student_jessica);
+        this.studentsList.add(student_ulises);
+        this.studentsList.add(student_danilo_andres);
+        this.studentsList.add(student_luisa_fernanda);
+        this.studentsList.add(student_camilo_alejandro);
+        this.studentsList.add(student_diego_fernando);
+        this.studentsList.add(student_luis_daniel);
 
         // add teacher to a list
-        this.teachers.add(ftt1);
-        this.teachers.add(ftt2);
-        this.teachers.add(ftt3);
-        this.teachers.add(ptt1);
-        this.teachers.add(ptt2);
-        this.teachers.add(ptt3);
+        this.teachersList.add(teacher_faber);
+        this.teachersList.add(teacher_edwin);
+        this.teachersList.add(teacher_andres);
+        this.teachersList.add(teacher_jesus);
+        this.teachersList.add(teacher_maycol);
+        this.teachersList.add(teacher_andrea);
 
         // add courses to a list
-        this.courses.add(c1);
-        this.courses.add(c2);
-        this.courses.add(c3);
-        this.courses.add(c4);
+        this.coursesList.add(big_data_course);
+        this.coursesList.add(data_analytics_course);
+        this.coursesList.add(ia_course);
+        this.coursesList.add(clean_code_course);
 
 
         // add students and teachers to courses
-        this.c1.addStudent(st1);
-        this.c1.addStudent(st2);
-        this.c1.setTeacher(ftt1);
+        this.big_data_course.addStudent(student_juan_felipe);
+        this.big_data_course.addStudent(student_jessica);
+        this.big_data_course.setTeacher(teacher_faber);
 
-        this.c2.addStudent(st3);
-        this.c2.addStudent(st4);
-        this.c2.setTeacher(ftt2);
+        this.data_analytics_course.addStudent(student_ulises);
+        this.data_analytics_course.addStudent(student_danilo_andres);
+        this.data_analytics_course.setTeacher(teacher_edwin);
 
-        this.c3.addStudent(st5);
-        this.c3.addStudent(st6);
-        this.c3.setTeacher(ptt1);
+        this.ia_course.addStudent(student_luisa_fernanda);
+        this.ia_course.addStudent(student_camilo_alejandro);
+        this.ia_course.setTeacher(teacher_jesus);
 
-        this.c4.addStudent(st7);
-        this.c4.addStudent(st8);
-        this.c4.setTeacher(ptt2);
+        this.clean_code_course.addStudent(student_diego_fernando);
+        this.clean_code_course.addStudent(student_luis_daniel);
+        this.clean_code_course.setTeacher(teacher_maycol);
 
         // add list to university
-        this.university.setTeacherList(this.teachers);
-        this.university.setCourseList(this.courses);
-        this.university.setStudentList(this.students);
+        this.university.setTeacherList(this.teachersList);
+        this.university.setCourseList(this.coursesList);
+        this.university.setStudentList(this.studentsList);
     }
 
     public University getUniversity() {
